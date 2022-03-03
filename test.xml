@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE network SYSTEM "http://www.matsim.org/files/dtd/network_v2.dtd">
+<network>
+
+<!-- ====================================================================== -->
+
+	<nodes>
+		<node id="1" x="0.0" y="0.0" >
+		</node>
+		<node id="2" x="0.0" y="1.0" >
+		</node>
+		<node id="3" x="1.0" y="1.0" >
+		</node>
+		<node id="4" x="1.0" y="0.0" >
+		</node>
+	</nodes>
+
+<!-- ====================================================================== -->
+
+	<links capperiod="01:00:00" effectivecellsize="7.5" effectivelanewidth="3.75">
+		<link id="1" from="1" to="2" length="1.0" freespeed="1.0" capacity="1.0" permlanes="1.0" oneway="1" modes="car" >
+			<attributes>
+				<attribute name="width" class="java.lang.Double">12.5</attribute>
+				<attribute name="text" class="java.lang.String">Hello World</attribute>
+				<attribute name="num" class="java.lang.Integer">12</attribute>
+				<attribute name="bool" class="java.lang.Boolean">true</attribute>
+			</attributes>
+		</link>
+	</links>
+
+<!-- ====================================================================== -->
+
+</network>
