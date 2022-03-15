@@ -16,22 +16,26 @@ import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TouristPathSimulator;
 import org.matsim.facilities.Facility;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
 public class TouristRoutingModule implements RoutingModule {
-    @Inject
-    Network network;
 
-    @Inject
-    PopulationFactory populationFactory;
+    private final Network network;
+
+
+    private final PopulationFactory populationFactory;
 
     TouristPathSimulator pathSimulator = new TouristPathSimulator();
 
+    public TouristRoutingModule(Network network, PopulationFactory populationFactory) {
+        this.network = network;
+        this.populationFactory = populationFactory;
+    }
+
     @Override
     public List<? extends PlanElement> calcRoute(Facility fromFacility, Facility toFacility, double departureTime, Person person) {
-        Leg newLeg = this.populationFactory.createLeg(TransportMode.walk);
+        Leg newLeg = this.populationFactory.createLeg(TransportMode.car);
 
         Gbl.assertNotNull(fromFacility);
         Gbl.assertNotNull(toFacility);

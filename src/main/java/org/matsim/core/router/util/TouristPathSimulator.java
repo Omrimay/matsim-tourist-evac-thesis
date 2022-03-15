@@ -17,10 +17,6 @@ import static org.matsim.core.router.util.TouristChoiceCoefficients.*;
 public class TouristPathSimulator {
     private final Random random = MatsimRandom.getLocalInstance();
 
-    static double calcLinkUtil(double ASC, double width) {
-        return Math.exp(ASC + widthCoeficient * width);
-    }
-
     static double getLinkWidth(Link link) {
         Object width = link.getAttributes().getAttribute("width");
         if (width != null) {
@@ -31,6 +27,10 @@ public class TouristPathSimulator {
         }
         // default
         return link.getNumberOfLanes() * 3;
+    }
+
+    double calcLinkUtil(double ASC, double width) {
+        return Math.exp(ASC + widthCoeficient * width + random.nextDouble() * 1e-10);
     }
 
     public LeastCostPathCalculator.Path simulatePath(Link fromLink, Link toLink, double starttime, Person person, Vehicle vehicle) {
@@ -64,7 +64,7 @@ public class TouristPathSimulator {
                 }
                 // add the rest based on angle
                 options.entrySet().forEach(e -> {
-                    if (e.getKey() < 0)
+                    if (e.getKey() < smallest)
                         linkSampler.add(calcLinkUtil(ASC_Left, getLinkWidth(e.getValue())), e.getValue());
                     else
                         linkSampler.add(calcLinkUtil(ASC_Right, getLinkWidth(e.getValue())), e.getValue());
@@ -85,6 +85,8 @@ public class TouristPathSimulator {
 
         }
         nodes.add(currentLink.getToNode());
+        links.remove(0);
+        links.remove(links.size()-1);
 
 
         return new LeastCostPathCalculator.Path(nodes, links, travelTime, cost);
