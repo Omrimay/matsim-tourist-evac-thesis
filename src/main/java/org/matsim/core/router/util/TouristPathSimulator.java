@@ -29,8 +29,40 @@ public class TouristPathSimulator {
         return link.getNumberOfLanes() * 3;
     }
 
-    double calcLinkUtil(double ASC, double width) {
-        return Math.exp(ASC + widthCoeficient * width + random.nextDouble() * 1e-10);
+
+    /**
+     * In order to be consistent with the clockwise listing of angles in {@link NetworkUtils}
+     * getOutLinksSortedClockwiseByAngle,
+     * we return the negative value of the arctan
+     *
+     * @param origin
+     * @param destination
+     *
+     * @return value in radians, clockwise = positive
+     */
+    public static double getTargetAngle(Node origin, Node destination) {
+        double x = destination.getCoord().getX() - origin.getCoord().getX();
+        double y = destination.getCoord().getY() - origin.getCoord().getY();
+        double thetaInLink = Math.atan2(y, x);
+        return -thetaInLink;
+    }
+
+    double calcLinkUtil(double ASC, double width, double feta_aD) {
+        return Math.exp(ASC + widthCoeficient * width + beta_D * feta_aD + random.nextDouble() * 1e-10);
+    }
+
+    double calcLinkUtil(double ASC, double width, double feta_aD, double euclideanDistanceFactor) {
+
+        return Math.exp(ASC + widthCoeficient * width + beta_D * feta_aD * euclideanDistanceFactor + random.nextDouble() * 1e-10);
+    }
+
+    double getEuclideanDistanceFactor(double startDistance, double currentDistance) {
+        double euclideanDistanceFactor = (startDistance - currentDistance) / startDistance;
+        if (euclideanDistanceFactor < 0)
+            euclideanDistanceFactor = 0;
+        if (euclideanDistanceFactor > 1)
+            euclideanDistanceFactor = 1;
+        return euclideanDistanceFactor;
     }
 
     public LeastCostPathCalculator.Path simulatePath(Link fromLink, Link toLink, double starttime, Person person, Vehicle vehicle) {
@@ -42,11 +74,15 @@ public class TouristPathSimulator {
         Link currentLink = fromLink;
         double cost = 0d;
         double travelTime = 0d;
+        double euclideanDistanceFromOriginToDestination = NetworkUtils.getEuclideanDistance(fromLink.getFromNode().getCoord(), toLink.getToNode().getCoord());
+
         while (!currentLink.equals(toLink)) {
+            double euclideanDistanceToDestination = NetworkUtils.getEuclideanDistance(currentLink.getToNode().getCoord(), toLink.getToNode().getCoord());
+            double targetRadians = getTargetAngle(currentLink.getToNode(), toLink.getFromNode());
             RandomCollection<Link> linkSampler = new RandomCollection<>();
             Link back = NetworkUtils.findLinkInOppositeDirection(currentLink);
             if (back != null) {
-                linkSampler.add(calcLinkUtil(ASC_Back, getLinkWidth(back)), back);
+                linkSampler.add(calcLinkUtil(ASC_Back, getLinkWidth(back), 0d), back);
             }
             TreeMap<Double, Link> options = NetworkUtils.getOutLinksSortedClockwiseByAngle(currentLink);
             if (options.size() >= 2) {
@@ -58,21 +94,31 @@ public class TouristPathSimulator {
                     else
                         return x2;
                 }).get();
+                double euclideanDistanceFactor = getEuclideanDistanceFactor(euclideanDistanceFromOriginToDestination, euclideanDistanceToDestination);
                 if (smallest < Math.PI / 4) {
                     Link straight = options.remove(smallest);
-                    linkSampler.add(calcLinkUtil(ASC_Straight, getLinkWidth(straight)), straight);
+                    if (euclideanDistanceAttenuation) {
+                        linkSampler.add(calcLinkUtil(ASC_Straight, getLinkWidth(straight), smallest - targetRadians, euclideanDistanceFactor), straight);
+                    } else
+                        linkSampler.add(calcLinkUtil(ASC_Straight, getLinkWidth(straight), smallest - targetRadians), straight);
                 }
                 // add the rest based on angle
                 options.entrySet().forEach(e -> {
                     if (e.getKey() < smallest)
-                        linkSampler.add(calcLinkUtil(ASC_Left, getLinkWidth(e.getValue())), e.getValue());
+                        if (euclideanDistanceAttenuation)
+
+                            linkSampler.add(calcLinkUtil(ASC_Left, getLinkWidth(e.getValue()), e.getKey() - targetRadians, euclideanDistanceFactor), e.getValue());
+                        else
+                            linkSampler.add(calcLinkUtil(ASC_Left, getLinkWidth(e.getValue()), e.getKey() - targetRadians), e.getValue());
+                    else if (euclideanDistanceAttenuation)
+                        linkSampler.add(calcLinkUtil(ASC_Right, getLinkWidth(e.getValue()), e.getKey() - targetRadians, euclideanDistanceFactor), e.getValue());
                     else
-                        linkSampler.add(calcLinkUtil(ASC_Right, getLinkWidth(e.getValue())), e.getValue());
+                        linkSampler.add(calcLinkUtil(ASC_Right, getLinkWidth(e.getValue()), e.getKey() - targetRadians), e.getValue());
                 });
 
             } else if (options.size() == 1) {
                 Link straight = options.firstEntry().getValue();
-                linkSampler.add(calcLinkUtil(ASC_Straight, getLinkWidth(straight)), straight);
+                linkSampler.add(calcLinkUtil(ASC_Straight, getLinkWidth(straight), 0d), straight);
             }
 
             // get a link
@@ -86,7 +132,7 @@ public class TouristPathSimulator {
         }
         nodes.add(currentLink.getToNode());
         links.remove(0);
-        links.remove(links.size()-1);
+        links.remove(links.size() - 1);
 
 
         return new LeastCostPathCalculator.Path(nodes, links, travelTime, cost);
