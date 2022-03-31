@@ -68,7 +68,7 @@ public class RunMatsim {
                 this.addRoutingModuleBinding(TransportMode.car).toProvider(routing);
             }
         });
-//        controler.addOverridingModule(new OTFVisLiveModule());
+        controler.addOverridingModule(new OTFVisLiveModule());
 
         //turn landmark visibility in the routing on or off:
 //        TouristChoiceCoefficients.landmarkVisibility = false;
