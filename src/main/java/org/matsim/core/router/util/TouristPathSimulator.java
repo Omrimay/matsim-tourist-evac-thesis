@@ -71,9 +71,9 @@ public class TouristPathSimulator {
             RandomCollection<Link> linkSampler = new RandomCollection<>();
             TreeMap<Double, Link> options = NetworkUtils.getOutLinksSortedClockwiseByAngle(currentLink);
             options.entrySet().forEach(e -> {
-                        double howfar = Math.abs(e.getKey() - targetRadians);
-                        linkSampler.add(howfar, e.getValue());
-                    });
+                    double howfar = Math.abs(e.getKey() - targetRadians + random.nextDouble() * 1e-10);
+                    linkSampler.add(howfar, e.getValue());
+                });
 
             // get a link
             Link choice = linkSampler.select();
