@@ -27,7 +27,6 @@ public class TouristPathSimulatorMin {
         return link.getNumberOfLanes() * 3;
     }
 
-
     /**
      * In order to be consistent with the clockwise listing of angles in {@link NetworkUtils}
      * getOutLinksSortedClockwiseByAngle,

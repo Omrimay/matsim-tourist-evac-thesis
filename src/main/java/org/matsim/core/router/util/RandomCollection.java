@@ -39,7 +39,6 @@ public class RandomCollection<E> {
     }
 
 
-
     public E selectMin() {
         Set<Double> keys = rawMap.keySet();
         double temp_value = 10;
