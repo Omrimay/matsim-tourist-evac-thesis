@@ -21,7 +21,7 @@
 		<!-- Possible values: failIfDirectoryExists, overwriteExistingFiles, deleteDirectoryIfExists -->
 		<param name="overwriteFiles" value="deleteDirectoryIfExists" />
 		<param name="firstIteration" value="0" />
-		<param name="lastIteration" value="1" />
+		<param name="lastIteration" value="5" />
 		<param name="mobsim" value="qsim" />
 		<param name="snapshotFormat" value="" />
 	</module>
@@ -95,11 +95,16 @@
 		</parameterset>
 
 
+				<parameterset type="strategysettings">
+			<param name="strategyName" value="ReRoute" />
+			<param name="subpopulation" value="tur" />
+			<param name="weight" value="0.1" />
+		</parameterset>
 		
 				<parameterset type="strategysettings">
 			<param name="strategyName" value="KeepLastSelected" />
 			<param name="subpopulation" value="tur" />
-			<param name="weight" value="1.0" />
+			<param name="weight" value="0.9" />
 		</parameterset>
 			
 		

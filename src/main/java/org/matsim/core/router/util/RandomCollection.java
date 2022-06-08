@@ -38,9 +38,37 @@ public class RandomCollection<E> {
         return invertMap.higherEntry(value).getValue();
     }
 
+
+
+    public E selectMin() {
+        Set<Double> keys = rawMap.keySet();
+        double temp_value = 10;
+        for(Double d: keys){
+            double value = d.doubleValue();
+            if(value<temp_value){
+                temp_value = value;
+
+            }
+        }
+        return rawMap.get(temp_value);
+    }
+
+    public E selectNew() {
+        double value = total * random.nextDouble();
+        Set<Double> keys = rawMap.keySet();
+        double temp_value = 0;
+        for(Double d: keys){
+            temp_value+=d.doubleValue();
+            if(value<temp_value){
+                return rawMap.get(d);
+            }
+        }
+        return rawMap.firstEntry().getValue();
+    }
+
+
     public E select() {
         double value = total * random.nextDouble();
-
         return map.higherEntry(value).getValue();
     }
 
