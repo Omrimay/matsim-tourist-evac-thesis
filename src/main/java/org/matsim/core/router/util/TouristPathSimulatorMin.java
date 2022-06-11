@@ -41,7 +41,7 @@ public class TouristPathSimulatorMin {
         double x = destination.getCoord().getX() - origin.getCoord().getX();
         double y = destination.getCoord().getY() - origin.getCoord().getY();
         double thetaInLink = Math.atan2(y, x);
-        return -thetaInLink;
+        return thetaInLink;
     }
 
     double getEuclideanDistanceFactor(double startDistance, double currentDistance) {
@@ -60,30 +60,64 @@ public class TouristPathSimulatorMin {
         nodes.add(fromLink.getFromNode());
         links.add(fromLink);
         Link currentLink = fromLink;
+        final Link newCurntLink = currentLink;
+        final Link newToLink = toLink;
         double cost = 0d;
         double travelTime = 0d;
 
         while (!currentLink.equals(toLink)) {
-            double targetRadians = getTargetAngle(currentLink.getToNode(), toLink.getFromNode());
+
             RandomCollection<Link> linkSampler = new RandomCollection<>();
             TreeMap<Double, Link> options = NetworkUtils.getOutLinksSortedClockwiseByAngle(currentLink);
             options.entrySet().forEach(e -> {
-
-                double howfar = Math.abs(e.getKey() - targetRadians + random.nextDouble() * 1e-10);
-                linkSampler.add(howfar, e.getValue());
+                double targetRadians = getTargetAngle(newToLink.getToNode(), e.getValue().getFromNode());
+                double linkDirection  = getTargetAngle(e.getValue().getToNode(), e.getValue().getFromNode());
+                if (e.getValue().getToNode().getCoord().getY()>e.getValue().getFromNode().getCoord().getY()){
+                    if (e.getValue().getToNode().getCoord().getX()>e.getValue().getFromNode().getCoord().getX()){
+                        linkDirection = linkDirection;
+                    }
+                    else {
+                        linkDirection = + 3.06;
+                    }
+                }
+                else {
+                    if (e.getValue().getToNode().getCoord().getX() > e.getValue().getFromNode().getCoord().getX()) {
+                        linkDirection = linkDirection;
+                    } else {
+                        linkDirection = +3.06;
+                        linkDirection = linkDirection * -1;
+                    }
+                }
+                if (newToLink.getToNode().getCoord().getY()>e.getValue().getFromNode().getCoord().getY()){
+                    if (newToLink.getToNode().getCoord().getX()>e.getValue().getFromNode().getCoord().getX()){
+                        targetRadians = targetRadians;
+                    }
+                    else {
+                        targetRadians = + 3.06;
+                    }
+                }
+                else {
+                    if (newToLink.getToNode().getCoord().getX() > e.getValue().getFromNode().getCoord().getX()) {
+                        targetRadians = targetRadians;
+                    } else {
+                        targetRadians = +3.06;
+                        targetRadians = targetRadians * -1;
+                    }
+                }
+                double howfar = Math.abs(linkDirection - targetRadians + random.nextDouble() * 1e-10);
+                                        linkSampler.add(howfar, e.getValue());
 
 
                 });
 
             // get a link
 
-            Link choice = linkSampler.selectMin();
+            Link choice = linkSampler.selectRandom();
             cost += Math.log(linkSampler.getWeight(choice));
             travelTime += choice.getLength(); //assume 1m/s for now
             links.add(choice);
             nodes.add(choice.getFromNode());
             currentLink = choice;
-
         }
         nodes.add(currentLink.getToNode());
         links.remove(0);

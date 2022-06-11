@@ -15,6 +15,7 @@ import org.matsim.core.router.RoutingModule;
 import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TouristPathSimulator;
 import org.matsim.core.router.util.TouristPathSimulatorMin;
+import org.matsim.core.router.util.TouristPathSimulatorNew;
 import org.matsim.facilities.Facility;
 
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public class TouristRoutingModule implements RoutingModule {
     private final Network network;
 
     private final PopulationFactory populationFactory;
-        TouristPathSimulatorMin pathSimulator = new TouristPathSimulatorMin();
+        TouristPathSimulatorNew pathSimulator = new TouristPathSimulatorNew();
 
     public TouristRoutingModule(Network network, PopulationFactory populationFactory) {
         this.network = network;

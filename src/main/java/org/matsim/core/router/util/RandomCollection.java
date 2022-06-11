@@ -41,7 +41,7 @@ public class RandomCollection<E> {
 
     public E selectMin() {
         Set<Double> keys = rawMap.keySet();
-        double temp_value = 10;
+        double temp_value = 40;
         for(Double d: keys){
             double value = d.doubleValue();
             if(value<temp_value){
@@ -50,6 +50,30 @@ public class RandomCollection<E> {
             }
         }
         return rawMap.get(temp_value);
+    }
+
+
+    public E selectRandom() {
+        Set<Double> keys = rawMap.keySet();
+        double TempRand = new Random().nextDouble();
+        if (TempRand > 1) {
+            double temp_value = 40;
+            for (Double d : keys) {
+                double value = d.doubleValue();
+                if (value < temp_value) {
+                    temp_value = value;
+
+                }
+            }
+            return rawMap.get(temp_value);
+        } else {
+            List<Double> keyList = new ArrayList<>(keys);
+            int mapSize = rawMap.size();
+            int setsize = mapSize-1;
+            int randIndx = new Random().nextInt(setsize);
+            double randomKey = keyList.get(randIndx);
+            return rawMap.get(randomKey);
+        }
     }
 
     public E selectNew() {
