@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 import static org.matsim.core.router.util.TouristChoiceCoefficients.*;
 
-public class TouristPathSimulatortest {
+public class TouristPathSimulatorLandmarkAndRandom {
     private final Random random = MatsimRandom.getLocalInstance();
 
     static double getLinkWidth(Link link) {

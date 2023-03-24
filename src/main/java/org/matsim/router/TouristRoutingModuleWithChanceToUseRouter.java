@@ -17,7 +17,7 @@ import org.matsim.core.router.RoutingModule;
 import org.matsim.core.router.costcalculators.TravelDisutilityFactory;
 import org.matsim.core.router.speedy.SpeedyALTFactory;
 import org.matsim.core.router.util.LeastCostPathCalculator;
-import org.matsim.core.router.util.TouristPathSimulatortest;
+import org.matsim.core.router.util.TouristPathSimulatorLandmarkAndRandom;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
 import org.matsim.facilities.Facility;
@@ -32,7 +32,7 @@ public class TouristRoutingModuleWithChanceToUseRouter implements RoutingModule 
     private final Network network;
 
     private final PopulationFactory populationFactory;
-    TouristPathSimulatortest pathSimulator = new TouristPathSimulatortest();
+    TouristPathSimulatorLandmarkAndRandom pathSimulator = new TouristPathSimulatorLandmarkAndRandom();
 
     public TouristRoutingModuleWithChanceToUseRouter(Network network, PopulationFactory populationFactory) {
         this.network = network;

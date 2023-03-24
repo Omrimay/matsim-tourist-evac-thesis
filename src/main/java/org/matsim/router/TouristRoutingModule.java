@@ -23,7 +23,7 @@ public class TouristRoutingModule implements RoutingModule {
     private final Network network;
 
     private final PopulationFactory populationFactory;
-    TouristPathSimulatortest pathSimulator = new TouristPathSimulatortest();
+    TouristPathSimulatorLandmarkAndRandom pathSimulator = new TouristPathSimulatorLandmarkAndRandom();
 
     public TouristRoutingModule(Network network, PopulationFactory populationFactory) {
         this.network = network;
