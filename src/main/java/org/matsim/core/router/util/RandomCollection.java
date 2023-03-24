@@ -52,11 +52,25 @@ public class RandomCollection<E> {
         return rawMap.get(temp_value);
     }
 
+    public E selectRandomWalk() {
+        Set<Double> keys = rawMap.keySet();
+        List<Double> keyList = new ArrayList<>(keys);
+        int mapSize = rawMap.size();
+        if (mapSize > 1) {
+            int setsize = mapSize - 1;
+            int randIndx = new Random().nextInt(mapSize);
+            double randomKey = keyList.get(randIndx);
+            return rawMap.get(randomKey);
+        }else{
+            return rawMap.get(keyList.get(0));
+        }
+    }
+
 
     public E selectRandom() {
         Set<Double> keys = rawMap.keySet();
         double TempRand = new Random().nextDouble();
-        if (TempRand > 1) {
+        if (TempRand > 0) {
             double temp_value = 40;
             for (Double d : keys) {
                 double value = d.doubleValue();
@@ -69,12 +83,18 @@ public class RandomCollection<E> {
         } else {
             List<Double> keyList = new ArrayList<>(keys);
             int mapSize = rawMap.size();
-            int setsize = mapSize-1;
-            int randIndx = new Random().nextInt(setsize);
-            double randomKey = keyList.get(randIndx);
-            return rawMap.get(randomKey);
+            if (mapSize > 1) {
+                int setsize = mapSize - 1;
+                int randIndx = new Random().nextInt(mapSize);
+                double randomKey = keyList.get(randIndx);
+                return rawMap.get(randomKey);
+            }else{
+                return rawMap.get(keyList.get(0));
+            }
         }
+
     }
+
 
     public E selectNew() {
         double value = total * random.nextDouble();

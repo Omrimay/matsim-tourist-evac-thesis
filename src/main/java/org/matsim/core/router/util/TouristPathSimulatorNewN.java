@@ -1,22 +1,20 @@
 package org.matsim.core.router.util;
 
-import com.graphhopper.jsprit.core.reporting.SolutionPrinter;
-import gnu.trove.TCollections;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Person;
-import org.matsim.core.config.ReflectiveConfigGroup;
-import org.matsim.core.config.groups.StrategyConfigGroup;
 import org.matsim.core.gbl.MatsimRandom;
 import org.matsim.core.network.NetworkUtils;
-import org.matsim.core.scoring.functions.SubpopulationScoringParameters;
 import org.matsim.vehicles.Vehicle;
 
-import java.util.*;
+import java.util.AbstractSequentialList;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.TreeMap;
 
 import static org.matsim.core.router.util.TouristChoiceCoefficients.*;
 
-public class TouristPathSimulatorNew {
+public class TouristPathSimulatorNewN {
     private final Random random = MatsimRandom.getLocalInstance();
 
     static double getLinkWidth(Link link) {
@@ -97,14 +95,14 @@ public class TouristPathSimulatorNew {
                         linkDirection = linkDirection;
                     }
                     else {
-                        linkDirection = linkDirection + 3.06;
+                        linkDirection += 3.06;
                     }
                 }
                 else {
                     if (e.getValue().getToNode().getCoord().getX() > e.getValue().getFromNode().getCoord().getX()) {
                         linkDirection = linkDirection;
                     } else {
-                        linkDirection = linkDirection + 3.06;
+                        linkDirection += 3.06;
                         linkDirection = linkDirection * -1;
                     }
                 }
@@ -113,14 +111,14 @@ public class TouristPathSimulatorNew {
                         targetRadiansNew = targetRadiansNew;
                     }
                     else {
-                        targetRadiansNew = targetRadiansNew + 3.06;
+                        targetRadiansNew += 3.06;
                     }
                 }
                 else {
                     if (newToLink.getToNode().getCoord().getX() > e.getValue().getFromNode().getCoord().getX()) {
                         targetRadiansNew = targetRadiansNew;
                     } else {
-                        targetRadiansNew = targetRadiansNew + 3.06;
+                        targetRadiansNew += 3.06;
                         targetRadiansNew = targetRadiansNew * -1;
                     }
                 }
@@ -129,7 +127,7 @@ public class TouristPathSimulatorNew {
 
 
             });
-            if (options.size() >= 2) {
+            if (options.size() >= 10) {
                 // the one with the smallest absolute angle relative to the current link will be taken as straight,
                 //                if that angle is less than 45 degrees
                 Double smallest = options.keySet().stream().reduce((x1, x2) -> {
@@ -176,8 +174,8 @@ public class TouristPathSimulatorNew {
             } else {
                 choice = linkSampler.select();
             }
-            cost += Math.log(linkSampler.getWeight(choice));
-            travelTime += choice.getLength(); //assume 1m/s for now
+           // cost += Math.log(linkSampler.getWeight(choice));
+           // travelTime += choice.getLength(); //assume 1m/s for now
             links.add(choice);
             nodes.add(choice.getFromNode());
             currentLink = choice;

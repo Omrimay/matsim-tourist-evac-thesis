@@ -19,15 +19,15 @@ import java.util.Set;
 public class NetworkCheck {
     public static void main(String[] args) {
         Network network = NetworkUtils.createNetwork(ConfigUtils.createConfig());
-        new MatsimNetworkReader(network).readFile("dropbox/network3.xml");
+        new MatsimNetworkReader(network).readFile("Net.xml");
 
         collapseNodes(network, 15);
-        new NetworkWriter(network).write("temp/netwrok_15.xml");
+        new NetworkWriter(network).write("C:/storge/netwrok_15.xml");
 
         NetworkCleaner nc = new NetworkCleaner();
         nc.run(network);
         System.out.println();
-        new NetworkWriter(network).write("temp/netwrok_15_clean.xml");
+        new NetworkWriter(network).write("C:/netwrok_15_clean.xml");
 
 
     }
