@@ -17,6 +17,6 @@ public class TouristRouting implements Provider<RoutingModule> {
 
     @Override
     public RoutingModule get() {
-        return new TouristRoutingModule(this.network, this.populationFactory);
+        return new TouristRoutingModuleWithLocals(this.network, this.populationFactory);
     }
 }
