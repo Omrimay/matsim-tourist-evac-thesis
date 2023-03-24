@@ -4,6 +4,7 @@
 	<person id="loc1001">
 		<attributes>
 			<attribute class="java.lang.String" name="subpopulation">loc</attribute>
+			<attribute class="java.lang.Double" name="randomWalkProb">0.5</attribute>
 		</attributes>
 		<plan score="22.46671616" selected="yes">
 			<activity end_time="06:00:00" link="386" type="dummy"/>
