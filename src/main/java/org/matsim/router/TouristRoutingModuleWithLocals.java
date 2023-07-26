@@ -16,11 +16,7 @@ import org.matsim.core.population.routes.RouteUtils;
 import org.matsim.core.router.RoutingModule;
 import org.matsim.core.router.costcalculators.TravelDisutilityFactory;
 import org.matsim.core.router.speedy.SpeedyALTFactory;
-import org.matsim.core.router.util.LeastCostPathCalculator;
-import org.matsim.core.router.util.TouristPathSimulatorLandmark;
-import org.matsim.core.router.util.TouristPathSimulatortestRandom;
-import org.matsim.core.router.util.TravelDisutility;
-import org.matsim.core.router.util.TravelTime;
+import org.matsim.core.router.util.*;
 import org.matsim.facilities.Facility;
 import org.matsim.vehicles.Vehicle;
 
@@ -33,8 +29,10 @@ public class TouristRoutingModuleWithLocals implements RoutingModule {
     private final Network network;
 
     private final PopulationFactory populationFactory;
+    TouristPathSimulatorLandmarkAndRandom pathSimulatorLandmarkAndRandom = new TouristPathSimulatorLandmarkAndRandom();
     TouristPathSimulatorLandmark pathSimulatorLandmark = new TouristPathSimulatorLandmark();
     TouristPathSimulatortestRandom pathSimulatorRandom = new TouristPathSimulatortestRandom();
+    TouristPathSimulatorNodesControl pathSimulatorNodesControl = new TouristPathSimulatorNodesControl();
 
 
     public TouristRoutingModuleWithLocals(Network network, PopulationFactory populationFactory) {
@@ -56,7 +54,7 @@ public class TouristRoutingModuleWithLocals implements RoutingModule {
             Link toLink = network.getLinks().get(toFacility.getLinkId());
             LeastCostPathCalculator.Path path = null;
             if (person.getAttributes().getAttribute("subpopulation").equals("tur")){
-                path = pathSimulatorLandmark.simulatePath(fromLink, toLink, departureTime, person, null);
+                path = pathSimulatorNodesControl.simulatePath(fromLink, toLink, departureTime, person, null);
 
             } else {
                 DistancePathCalculator alternativeShortestPath = new DistancePathCalculator(network);

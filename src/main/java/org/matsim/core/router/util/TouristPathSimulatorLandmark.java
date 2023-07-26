@@ -109,7 +109,7 @@ public class TouristPathSimulatorLandmark {
             Link choice = fromLink;
             // get a link
             if (options.size() >= 1) {
-                choice = linkSamplerMin.selectRandom();
+                choice = linkSamplerMin.selectLandmark();
             } else {
                 choice = linkSampler.select();
             }

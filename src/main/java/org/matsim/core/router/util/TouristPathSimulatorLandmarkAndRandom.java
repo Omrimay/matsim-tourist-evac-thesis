@@ -111,7 +111,7 @@ public class TouristPathSimulatorLandmarkAndRandom {
             Link choice = fromLink;
             // get a link
             if (options.size() >= 1) {
-                choice = linkSamplerMin.selectRandom();
+                choice = linkSamplerMin.selectLandmarkAndRandom();
             } else {
                 choice = linkSampler.select();
             }

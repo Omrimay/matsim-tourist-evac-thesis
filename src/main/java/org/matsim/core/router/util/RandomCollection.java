@@ -46,7 +46,7 @@ public class RandomCollection<E> {
     }
 
 
-    public E selectMin() {
+    public E selectLandmark() {
         Set<Double> keys = rawMap.keySet();
         double temp_value = 40;
         for(Double d: keys){
@@ -74,7 +74,7 @@ public class RandomCollection<E> {
     }
 
 
-    public E selectRandom() {
+    public E selectLandmarkAndRandom() {
         Set<Double> keys = rawMap.keySet();
         double TempRand = new Random().nextDouble();
         if (TempRand > 0) {
@@ -105,16 +105,16 @@ public class RandomCollection<E> {
 
 
     public E selectNew() {
-        double value = total * random.nextDouble();
         Set<Double> keys = rawMap.keySet();
         double temp_value = 0;
         for(Double d: keys){
-            temp_value+=d.doubleValue();
-            if(value<temp_value){
-                return rawMap.get(d);
+            double value = d.doubleValue();
+            if(value>temp_value){
+                temp_value = value;
+
             }
         }
-        return rawMap.firstEntry().getValue();
+        return rawMap.get(temp_value);
     }
 
 
