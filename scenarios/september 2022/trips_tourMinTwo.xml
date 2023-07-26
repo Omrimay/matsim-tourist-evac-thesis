@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE population SYSTEM "http://www.matsim.org/files/dtd/population_v6.dtd">
+<population>
+	<person id="tur1001">
+		<attributes>
+			<attribute class="java.lang.String" name="subpopulation">tur</attribute>
+		</attributes>
+		<plan score="22.46671616" selected="yes">
+			<activity end_time="06:00:00" link="386" type="dummy"/>
+			<leg mode="car">
+				<route type="links">386 418 392 411 698 700 403 677 296 306 938 679 311 317 320 321 193 629 630 632 633 196 789 170 174 188 817 818 984 894 650 517 738 737 814 508 510 505 735 731 499 497 9134</route>
+			</leg>
+			<activity link="9134" type="dummy"/>
+		</plan>
+	</person>
+	<person id="tur2676">
+		<attributes>
+			<attribute class="java.lang.String" name="subpopulation">tur</attribute>
+		</attributes>
+		<plan score="22.46671616" selected="yes">
+			<activity end_time="06:00:00" link="295" type="dummy"/>
+			<leg mode="car">
+				<route type="links">295 287 286 673 218 213 871 209 208 971 972 221 237 718 711 231 861 857 552 884 998 993 848 804 541 898</route>
+			</leg>
+			<activity link="898" type="dummy"/>
+		</plan>
+	</person>
+</population>
