@@ -39,9 +39,10 @@ public class RunMatsim {
 
         Config config;
         if (args == null || args.length == 0 || args[0] == null) {
-            config = ConfigUtils.loadConfig("scenarios/equil/config.xml");
+            config = ConfigUtils.loadConfig("D:\\september 2022\\configTurMinNodesControl.xml");
         } else {
-            config = ConfigUtils.loadConfig(args);
+            //config = ConfigUtils.loadConfig(args);
+            config = ConfigUtils.loadConfig("D:\\september 2022\\configTurMinNodesControl.xml");
         }
 
         config.controler().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
