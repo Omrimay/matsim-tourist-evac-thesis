@@ -77,7 +77,7 @@ public class RandomCollection<E> {
     public E selectLandmarkAndRandom() {
         Set<Double> keys = rawMap.keySet();
         double TempRand = new Random().nextDouble();
-        if (TempRand > 0) {
+        if (TempRand > 1) {
             double temp_value = 40;
             for (Double d : keys) {
                 double value = d.doubleValue();

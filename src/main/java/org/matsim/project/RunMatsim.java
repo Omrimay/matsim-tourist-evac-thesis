@@ -39,7 +39,7 @@ public class RunMatsim {
 
         Config config;
         if (args == null || args.length == 0 || args[0] == null) {
-            config = ConfigUtils.loadConfig("C:\\Users\\mayoset family\\IdeaProjects\\matsim-tourist-evac-thesis\\scenarios\\september 2022\\configTurMinNodesControl.xml");
+            config = ConfigUtils.loadConfig("C:\\Users\\mayoset family\\IdeaProjects\\matsim-tourist-evac-thesis\\scenarios\\september 2022\\santander\\configTurMinNodesControlSantander.xml");
         } else {
             config = ConfigUtils.loadConfig(args);
         }
