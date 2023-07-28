@@ -21,7 +21,7 @@
 		<!-- Possible values: failIfDirectoryExists, overwriteExistingFiles, deleteDirectoryIfExists -->
 		<param name="overwriteFiles" value="deleteDirectoryIfExists" />
 		<param name="firstIteration" value="0" />
-		<param name="lastIteration" value="1" />
+		<param name="lastIteration" value="2" />
 		<param name="mobsim" value="qsim" />
 		<param name="snapshotFormat" value="" />
 	</module>
